@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Inspection Lot</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+<style>
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+
+#show {
+	float: right;
+}
+</style>
+</head>
+<body>
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<a th:href="@{/user/home}">Back</a> <a th:href="@{/user/home}">Home</a>
+		</div>
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+
+	<div class="card mt-5" style="max-width: 500px;">
+		<div class="card-body">
+			<h2 class="card-title">Add Inspection Lot</h2>
+			<form th:action="@{/user/save-material-insp-lot}" method="POST"
+				class="row g-2"  th:object1="${materials}" th:object2="${vendors}"
+				th:object3="${plants}">
+				<div class="col-md-6">
+					<label for="material" class="form-label" >Material:</label> <select
+						class="form-select form-select-sm" name="material"
+						required >
+						<option th:object= "${matInspLot}"  th:each="material : ${materials}" th:value="${material.materialId}"
+							 th:text="${material.description}" ></option>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for="vendor" class="form-label" >Vendor:</label> <select
+						class="form-select form-select-sm" id="vendor" name="vendor"
+						required>
+						<option  th:each="vendor : ${vendors}" th:value="${vendor.vendorId}"
+							th:text="${vendor.name}"></option>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for="plant" class="form-label">Plant:</label> <select
+						class="form-select form-select-sm" id="plant" name="plant"
+						required>
+						<option th:each="plant : ${plants}"  th:value="${plant.plantId}"
+							th:text="${plant.name}"></option>
+					</select>
+				</div>
+
+				<div class="col-md-6">
+					<label for="state" class="form-label" >Created Date:</label>
+					<input type="date" class="form-control form-control-sm" id="crDate"
+						name="crDate" required>
+				</div>
+				<div class="col-md-6">
+					<label for="state" class="form-label" >Inspection Start Date:</label>
+					<input type="date" class="form-control form-control-sm" id="inspStDate"
+						name="inspStDate"  required >
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary me-2">Add
+						Inspection Lot</button>
+				</div>
+				<h5 class="text-success" th:text="${message}"></h5>
+
+			</form>
+			<button id="show" class="btn btn-primary" onclick="redirect()">Show
+				InspectionLots</button>
+		</div>
+	</div>
+
+	<script>
+		function redirect() {
+			window.location.href = '/zettamine/user/show-inspection-lots';
+		}
+	</script>
+</body>
+</html>

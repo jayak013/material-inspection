@@ -1,0 +1,14 @@
+server:
+  servlet:
+    context-path: /zettamine
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: Jayak@013
+    url: jdbc:postgresql://localhost:5432/material_inspection
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    

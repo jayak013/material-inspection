@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<meta charset="ISO-8859-1">
+<title>Material Chars</title>
+<style>
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+</style>
+</head>
+<body>
+
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<a th:href="@{/user/show-materials}">Back</a> <a th:href="@{/user/home}">Home</a>
+		</div>
+
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<h1 class="w-50 mx-auto text-secondary">Material Characteristics Of <span th:text="${material.materialId}"></span></h1>
+	<p></p>
+	<div class="w-50 px-md-2">
+		<h4 class="right btn btn-primary " onclick="redirect()">Add
+			Material chars</h4>
+	</div>
+	<p></p>
+	<table
+		class="table table-striped table-light table-hover table-bordered w-100 mx-auto">
+		<thead>
+			<tr>
+				<th>Char ID</th>
+				<th>Description</th>
+				<th>Material ID</th>
+				<th>Tolerance UL</th>
+				<th>Tolerance LL</th>
+				<th>UOM</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tr th:each="matChar : ${material.matChars}">
+			<td th:text="${matChar.charId}"></td>
+			<td th:text="${matChar.charDesc}"></td>
+			<td th:text="${material.materialId}"></td>
+			<td th:text="${matChar.toleranceUl}"></td>
+			<td th:text="${matChar.toleranceLl}"></td>
+			<td th:text="${matChar.uom}"></td>
+			<td><a th:href="@{'/user/update-material-chars/' + ${matChar.charId}}"><i
+					class="fa fa-edit text-info">Edit</i></a> &nbsp; &nbsp; 
+					<a th:href="@{'/user/delete-material-chars/' + ${material.materialId} + '/' +  ${matChar.charId}}"> <i
+						class="fa fa-trash text-danger">Delete</i>
+				</a></td>
+		</tr>
+		
+	</table>
+	<script th:inline="javascript">
+		function redirect() {
+			var matId = /*[[ ${material.materialId} ]]*/ '';
+			window.location.href = '/zettamine/user/add-material-chars/'+matId;
+		}
+	</script>
+
+</body>
+</html>

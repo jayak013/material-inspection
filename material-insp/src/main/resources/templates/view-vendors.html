@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<meta charset="ISO-8859-1">
+<title>Vendor Records</title>
+<style>
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+</style>
+</head>
+<body>
+
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<a th:href="@{/user/add-vendor}">Back</a> <a th:href="@{/user/home}">Home</a>
+		</div>
+
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<h1 class="w-25 mx-auto text-secondary">Vendor's Data</h1>
+	<p></p>
+	<div class="w-50 px-md-2">
+		<h4 class="right btn btn-primary " onclick="redirect()">Add
+			Vendor</h4>
+	</div>
+	<p></p>
+	<table
+		class="table table-striped table-light table-hover table-bordered w-100 mx-auto">
+		<thead>
+			<tr>
+				<th>Vendor ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Mobile</th>
+				<th>State</th>
+				<th>City</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tr th:each="vendor : ${vendors}">
+			<td th:text="${vendor.vendorId}"></td>
+			<td th:text="${vendor.name}"></td>
+			<td th:text="${vendor.email}"></td>
+			<td th:text="${vendor.mobile}"></td>
+			<td th:text="${vendor.state}"></td>
+			<td th:text="${vendor.city}"></td>
+			<td><a th:href="@{'/user/update/' + ${vendor.vendorId}}"><i
+					class="fa fa-edit text-info">Edit</i></a> &nbsp; &nbsp; 
+					<a th:href="@{'/user/delete-vendor/' + ${vendor.vendorId}}"> <i
+						class="fa fa-trash text-danger">Delete</i>
+				</a></td>
+		</tr>
+		
+	</table>
+	<h4 th:field = "${message}"></h4>
+	<script>
+		function redirect() {
+			window.location.href = '/zettamine/user/add-vendor';
+		}
+	</script>
+
+</body>
+</html>
