@@ -33,9 +33,11 @@ public class UserController {
 	}
 
 	@PostMapping("/home")
-	public String loginAuthentication(User user, Model model) {
+	public String loginAuthentication(User user, Model model,HttpServletRequest request) {
 		User existedUser = userService.getByUserNameAndPassword(user.getUserName(), user.getPassword());
 		if (existedUser != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("user", existedUser);
 			return "home";
 		}
 		model.addAttribute("invalid", "Invalid Credentials");

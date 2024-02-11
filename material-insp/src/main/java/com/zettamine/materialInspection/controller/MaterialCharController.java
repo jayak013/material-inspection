@@ -14,7 +14,11 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.zettamine.materialInspection.entities.Material;
 import com.zettamine.materialInspection.entities.MaterialChars;
+import com.zettamine.materialInspection.entities.User;
 import com.zettamine.materialInspection.service.MaterialCharsService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -32,7 +36,10 @@ public class MaterialCharController {
 
 	
 	@GetMapping("/add-material-chars/{matid}")
-	public String addMaterialDetails(@PathVariable("matid") String matId, Model model) {
+	public String addMaterialDetails(@PathVariable("matid") String matId, Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
 		Material m = new Material();
 		m.setMaterialId(matId);
 		MaterialChars materialChars = new MaterialChars();

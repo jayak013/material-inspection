@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>add material actuals</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+<style>
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+
+#show {
+	float: right;
+}
+</style>
+</head>
+<body>
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<a th:href="@{/user/show-inspection-lots}">Back</a> <a
+				th:href="@{/user/home}">Home</a>
+		</div>
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+
+	<div class="card mt-5" style="max-width: 400px;">
+		<div class="card-body">
+			<h2 class="card-title">Add Material Actuals</h2>
+			
+			
+			<form th:action="@{/user/save-material-actuals}" method="POST"
+				class="row g-2">
+				<div class="col-md-12">
+					<h3>Lot ID: <span  class="form-label"
+						th:text="${matActuals.matInsplot.lotId}"></span></h3>
+						<input type = "hidden" name = "lotId" th:value = "*{matActuals.matInsplot.lotId}">
+				</div>
+				<div class="col-md-12">
+					<select class="form-select form-select-sm"  name="charId"
+						  required>
+						<option>Select Material Character</option>
+						<option th:each="matChar : ${matCharsForActuals}"
+							th:text="${matChar.charDesc}"
+							th:value="${matChar.charId}"></option>
+					</select>
+				</div>
+				<div class="col-md-12">
+					Maximum Measurement:<input type="number" name="maxMes">
+				</div>
+				<div class="col-md-12">
+					Minimum Measurement:<input type="number" name="minMes">
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary me-2">Add</button>
+					<button type="reset" class="btn btn-outline-secondary"
+						onclick="clearForm()">Reset</button>
+				</div>
+				<h5 class="text-success" th:text="${message}"></h5>
+			</form>
+			<button id="show" class="btn btn-primary" onclick="redirect()">Show
+				Material Actuals</button>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		function clearForm() {
+			var lotId = /*[[ ${matActuals.matInsplot.lotId} ]]*/ '';
+			window.location.href = '/zettamine/user/add-material-actuals/'+lotId;
+		}
+		function redirect() {
+			var lotId = /*[[ ${matActuals.matInsplot.lotId} ]]*/ '';
+			window.location.href = '/zettamine/user/show-material-actuals/'+lotId;
+		}
+	</script>
+</body>
+</html>

@@ -56,21 +56,24 @@ body {
 	<div class="card mt-5" style="max-width: 500px;">
 		<div class="card-body">
 			<h2 class="card-title">Add Inspection Lot</h2>
-			<form th:action="@{/user/save-material-insp-lot}" method="POST"
-				class="row g-2"  th:object1="${materials}" th:object2="${vendors}"
-				th:object3="${plants}">
+			<form th:action="@{/user/save-material-insp-lot}" method="GET"
+				class="row g-2" >
+				
 				<div class="col-md-6">
 					<label for="material" class="form-label" >Material:</label> <select
-						class="form-select form-select-sm" name="material"
+						class="form-select form-select-sm" id = "material" name="material" 
 						required >
-						<option th:object= "${matInspLot}"  th:each="material : ${materials}" th:value="${material.materialId}"
+						<option>Select Material</option>
+						<option th:each="material : ${materials}" th:value="${material.materialId}"
 							 th:text="${material.description}" ></option>
 					</select>
 				</div>
+				
 				<div class="col-md-6">
 					<label for="vendor" class="form-label" >Vendor:</label> <select
 						class="form-select form-select-sm" id="vendor" name="vendor"
 						required>
+						<option>Select Vendor</option>
 						<option  th:each="vendor : ${vendors}" th:value="${vendor.vendorId}"
 							th:text="${vendor.name}"></option>
 					</select>
@@ -79,6 +82,7 @@ body {
 					<label for="plant" class="form-label">Plant:</label> <select
 						class="form-select form-select-sm" id="plant" name="plant"
 						required>
+						<option>Select Plant</option>
 						<option th:each="plant : ${plants}"  th:value="${plant.plantId}"
 							th:text="${plant.name}"></option>
 					</select>
