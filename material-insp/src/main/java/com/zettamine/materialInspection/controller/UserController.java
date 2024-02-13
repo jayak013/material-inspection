@@ -20,9 +20,7 @@ public class UserController {
 
 	private UserService userService;
 
-	@Autowired
 	public UserController(UserService userService) {
-		super();
 		this.userService = userService;
 	}
 
@@ -34,7 +32,7 @@ public class UserController {
 
 	@PostMapping("/home")
 	public String loginAuthentication(User user, Model model,HttpServletRequest request) {
-		User existedUser = userService.getByUserNameAndPassword(user.getUserName(), user.getPassword());
+		User existedUser = userService.getByUserNameAndPassword(user.getUserName().toUpperCase(), user.getPassword());
 		if (existedUser != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", existedUser);
@@ -50,7 +48,7 @@ public class UserController {
 		if (session != null) {
 			session.invalidate();
 		}
-		return "redirect:/"; // Redirect to login page
+		return "redirect:/"; 
 	}
 
 }

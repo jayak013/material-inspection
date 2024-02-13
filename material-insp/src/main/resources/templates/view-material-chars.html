@@ -39,7 +39,7 @@
 
 	<div class="header pt-3 pb-3">
 		<div class="left">
-			<a th:href="@{/user/show-materials}">Back</a> <a th:href="@{/user/home}">Home</a>
+			<button onclick="history.back()">Back</button> <a th:href="@{/user/home}">Home</a>
 		</div>
 
 		<div>
@@ -76,9 +76,9 @@
 			<td th:text="${matChar.toleranceUl}"></td>
 			<td th:text="${matChar.toleranceLl}"></td>
 			<td th:text="${matChar.uom}"></td>
-			<td><a th:href="@{'/user/update-material-chars/' + ${matChar.charId}}"><i
+			<td><a th:href="@{'/user/update-material-chars/'+ ${material.materialId}+ '/' + ${matChar.charId}}"><i
 					class="fa fa-edit text-info">Edit</i></a> &nbsp; &nbsp; 
-					<a th:href="@{'/user/delete-material-chars/' + ${material.materialId} + '/' +  ${matChar.charId}}"> <i
+					<a th:href="@{'/user/delete-material-chars/' + ${material.materialId} + '/' + ${matChar.charId}}"> <i
 						class="fa fa-trash text-danger">Delete</i>
 				</a></td>
 		</tr>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Criteria Form</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+<style>
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+
+#show {
+	float: right;
+}
+</style>
+</head>
+<body>
+<!-- <div th:replace="fragments/nav-bar :: nav-bar"></div> -->
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<button onclick="history.back()">Back</button> <a th:href="@{/user/home}">Home</a>
+		</div>
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+
+	<div class="card mt-5" style="max-width: 400px;">
+		<div class="card-body">
+			<h2 class="card-title">Search Inspection Lots</h2>
+			<form th:action="@{/user/inspection-lot-results}" method="POST" class="row g-2" th:object = "${search}">
+				<div class="col-md-12">
+					<label for="from_date" class="form-label">From Date:</label> <input type="date"
+						th:id="from_date" name="from_date" class="form-control form-control-sm" th:field = "*{fromDate}">
+				</div>
+				<div class="col-md-12" >
+					<label for="to_date" class="form-label">To Date:</label> <input type="date"
+						th:id="to_date" name="to_date" class="form-control form-control-sm" th:field = "*{toDate}" th:onchange="handleDateValidation()">
+				</div>
+				<!-- <div class="col-md-12" >
+					<label for="material_number" class="form-label">Material Number:</label> <input
+						type="text" id="material_number" name="material_number" class="form-control form-control-sm" th:field = "*{materialId}">
+				</div> -->
+				
+				<div>
+					<label for="plant" class="form-label" >Plant:</label> <select
+						class="form-select form-select-sm" id = "plantId" name="plantId" 
+						 >
+						<option value="">Select Plant</option>
+						<option th:each="plant : ${plants}" th:value="${plant.plantId}"
+							 th:text="${plant.name}" ></option>
+					</select>
+				</div>
+			
+				<div>
+					<label for="material" class="form-label"  th:field = "*{materialId}">Material:</label> <select
+						class="form-select form-select-sm" id = "materialId" name="materialId" 
+						 >
+						<option value="">Select Material</option>
+						<option th:each="material : ${materials}" th:value="${material.materialId}"
+							 th:text="${material.description}" ></option>
+					</select>
+				</div>
+				
+				<div>
+					<label for="status" class="form-label"  th:field = "*{status}">Status:</label> <select
+						class="form-select form-select-sm"  id = "status" name="status" 
+						 >
+						<option value="">Select Status</option>
+						<option value="pass">Pass</option>
+						<option value="fail">Fail</option>
+						<option value="under process">Under Process</option>
+						<option value="insp completed">Inspection Completed</option>
+					</select>
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary me-2">Search</button>
+					<button type="reset" class="btn btn-outline-secondary"
+						onclick="clearForm()">Clear</button>
+				</div>
+				<h5 class="text-success" th:text="${message}"></h5>
+			</form>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		function clearForm() {
+			window.location.href = '/zettamine/user/search-insp-lots';
+		}
+		function handleDateValidation() {
+
+			const fromDate = document.getElementById("from_date");
+
+			const toDate = document.getElementById("to_date");
+
+			const fromDateValue = new Date(fromDate.value);
+
+			const toDateValue = new Date(toDate.value);
+
+			console.log((toDateValue - fromDateValue) / (1000 * 3600 * 24));
+			if (toDateValue < fromDateValue) {
+				alert("please select valid dates");
+				fromDate.value = "";
+				toDate.value = "";
+			}
+			if (((toDateValue - fromDateValue) / (1000 * 3600 * 24)) > 90) {
+
+				alert("select date ranges in 90 days period");
+
+				toDate.value = "";
+			}
+		}
+	</script>
+</body>
+</html>

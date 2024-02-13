@@ -1,5 +1,7 @@
 package com.zettamine.materialInspection.entities;
 
+import com.zettamine.materialInspection.model.MaterialActualsCompKey;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;

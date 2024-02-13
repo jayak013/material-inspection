@@ -44,7 +44,7 @@
 <body>
     <div class="header pt-3 pb-3">
         <div class="left">
-            <a th:href="@{/user/home}">Back</a>
+            <button onclick="history.back()">Back</button>
             <a th:href="@{/user/home}">Home</a>
         </div>
         <div>
@@ -57,8 +57,8 @@
             <h2 class="card-title">Add Material Details</h2>
             <form th:action="@{/user/save-material}" method="POST" class="row g-2" th:object="${material}">
                 <div class="col-md-12">
-                    <label for="name" class="form-label">Material ID:</label>
-                    <input type="text" class="form-control form-control-sm" id="name" name="name" required th:field = "*{materialId}">
+                    <label for="name" class="form-label" >Material ID:</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="name" th:readonly="${material.materialId != null}" required th:field = "*{materialId}">
                 </div>
                 <div class="col-md-12">
                     <label for="name" class="form-label">Description:</label>

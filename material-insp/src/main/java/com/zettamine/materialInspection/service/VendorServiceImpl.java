@@ -16,9 +16,7 @@ public class VendorServiceImpl implements VendorService {
 	
 	private VendorRepository vendorRepo;
 	
-	@Autowired
 	public VendorServiceImpl(VendorRepository vendorRepo) {
-		super();
 		this.vendorRepo = vendorRepo;
 	}
 
@@ -27,10 +25,10 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public Vendor addVendor(Vendor vendor) {
 		
-		vendor.setName(vendor.getName().toLowerCase());
-		vendor.setEmail(vendor.getEmail().toLowerCase());
-		vendor.setCity(vendor.getCity().toLowerCase());
-		vendor.setState(vendor.getState().toLowerCase());
+		vendor.setName(vendor.getName().toUpperCase().trim());
+		vendor.setEmail(vendor.getEmail().toUpperCase().trim());
+		vendor.setCity(vendor.getCity().toUpperCase().trim());
+		vendor.setState(vendor.getState().toUpperCase().trim());
 		
 		return vendorRepo.save(vendor);
 	}

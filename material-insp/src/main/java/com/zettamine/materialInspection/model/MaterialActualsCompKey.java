@@ -1,7 +1,10 @@
-package com.zettamine.materialInspection.entities;
+package com.zettamine.materialInspection.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import com.zettamine.materialInspection.entities.MaterialChars;
+import com.zettamine.materialInspection.entities.MaterialInspLot;
 
 import jakarta.persistence.Embeddable;
 import lombok.Data;

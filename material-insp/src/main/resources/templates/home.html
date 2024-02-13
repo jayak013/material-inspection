@@ -55,7 +55,7 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" >Home</a>
+                                <a class="nav-link" th:href="@{/user/home}">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/user/add-vendor}">Vendor</a>
@@ -70,7 +70,7 @@
                                 <a class="nav-link" th:href="@{/user/add-material-insp-lot}">Inspection</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@{/user/add-material-insp-lot}">Search</a>
+                                <a class="nav-link" th:href="@{/user/search-insp-lots}">Search</a>
                             </li>
                         </ul>
                         <ul class="navbar-nav">
@@ -131,11 +131,11 @@
                     </div>
                 </div> -->
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card"> 
                         <div class="card-body">
                             <h5 class="card-title">Search</h5>
                             <p class="card-text">Description about Search Criteria</p>
-                            <a href="@{/user/search}" class="btn btn-primary">Go to Inspection Actuals</a>
+                            <a th:href="@{/user/search-insp-lots}" class="btn btn-primary">Go to Search</a>
                         </div>
                     </div>
                 </div>

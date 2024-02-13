@@ -44,7 +44,7 @@
 <body>
     <div class="header pt-3 pb-3">
         <div class="left">
-            <a th:href="@{/user/show-materials}">Back</a>
+            <button onclick="history.back()">Back</button>
             <a th:href="@{/user/home}">Home</a>
         </div>
         <div>
@@ -57,8 +57,8 @@
             <h2 class="card-title">Add Material Characteristics for <span th:text = "${matid}"></span></h2>
             <form th:action="@{/user/save-material-chars}" method="POST" class="row g-2" th:object="${matChars}">
                 <div class="col-md-12">
-                    <label for="name" class="form-label">Description:</label>
-                    <input type="text" class="form-control form-control-sm" id="name" name="name" required th:field = "*{charDesc}">
+                    <label for="name" class="form-label" >Description:</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="name" th:readonly="${matChars.charDesc != null}" required th:field = "*{charDesc}">
                 </div>
                 <div class="col-md-12">
                     <label for="city" class="form-label">Tolerance Upper Limit:</label>

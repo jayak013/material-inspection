@@ -4,11 +4,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,7 @@ import com.zettamine.materialInspection.entities.Plant;
 import com.zettamine.materialInspection.entities.User;
 import com.zettamine.materialInspection.entities.Vendor;
 import com.zettamine.materialInspection.model.CombinedList;
-import com.zettamine.materialInspection.service.MaterialActualsService;
+import com.zettamine.materialInspection.model.Search;
 import com.zettamine.materialInspection.service.MaterialInspLotService;
 import com.zettamine.materialInspection.service.MaterialService;
 import com.zettamine.materialInspection.service.PlantService;
@@ -31,6 +33,7 @@ import com.zettamine.materialInspection.service.VendorService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("/user")
@@ -92,7 +95,7 @@ public class MaterialInspLotController {
 			matInspLot.setUser(user);
 			
 			matInspLotService.addLot(matInspLot);
-			return "redirect:/user/show-inspection-lots";
+			return "redirect:/user/search-insp-lots";
 
 	}
 	
@@ -123,15 +126,15 @@ public class MaterialInspLotController {
 		return "redirect:/user/add-material-insp-lot";
 	}
 
-	@GetMapping("/show-inspection-lots")
-	public String showAllInspectionLots(Model model) {
-
-		List<MaterialInspLot> matInspLots = matInspLotService.getAll();
-		model.addAttribute("matInspLots", matInspLots);
-		model.addAttribute("matInspLotService",matInspLotService);
-		return "view-insp-lots";
-
-	}
+//	@GetMapping("/show-inspection-lots")
+//	public String showAllInspectionLots(Model model) {
+//
+//		List<MaterialInspLot> matInspLots = matInspLotService.getAll();
+//		model.addAttribute("matInspLots", matInspLots);
+//		model.addAttribute("matInspLotService",matInspLotService);
+//		return "view-insp-lots";
+//
+//	}
 	
 	@GetMapping("/show-results/{lotId}")
 	public String showResults(@PathVariable Integer lotId , Model model) {
@@ -140,12 +143,7 @@ public class MaterialInspLotController {
 		List<MaterialActuals> matActuals = matInspLot.getMatActuals();
 		List<MaterialChars> matChars = matInspLot.getMaterial().getMatChars();
 		
-		List<CombinedList> combinedList = new ArrayList<>();
-		for (int i = 0; i < matActuals.size(); i++) {
-            MaterialChars matChar = matChars.get(i);
-            MaterialActuals matActual = matActuals.get(matActuals.size()-i-1);
-            combinedList.add(new CombinedList(matChar, matActual));
-        }
+		List<CombinedList> combinedList = matInspLotService.getCombinedListOfMatActsAndChars(matChars, matActuals);
 		
 		model.addAttribute("lotId", lotId);
 		model.addAttribute("matInspLot", matInspLot);
@@ -165,7 +163,30 @@ public class MaterialInspLotController {
 		matInspLotService.addLot(matInspLot);
 		model.addAttribute("matInspLot", matInspLot);
 		
-		return "redirect:/user/show-inspection-lots";
+		return "redirect:/user/search-insp-lots";
 	}
 
+	@GetMapping("/search-insp-lots")
+	public String search(Model model) {
+		model.addAttribute("search", new Search());
+//		model.addAttribute("matInspLots", matInspLotService.getAll());
+		model.addAttribute("materials", matService.getAllMaterials());
+		model.addAttribute("plants", plantService.getAllPlants());
+		return "search-form";
+	}
+	
+	@PostMapping("/inspection-lot-results")
+	public String postMethodName( Search search, Model model) {
+		
+		
+		List<MaterialInspLot> matInspLots = matInspLotService.getSearchBasedResults(search);
+		
+		model.addAttribute("matInspLots", matInspLots);
+		model.addAttribute("matInspLotService",matInspLotService);
+		
+		return "view-insp-lots-search";
+	}
+	
+	
 }
+;

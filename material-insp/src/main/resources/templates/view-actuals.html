@@ -1,4 +1,154 @@
 
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<meta charset="UTF-8">
+<title>Material Actuals</title>
+<style>
+.header {
+	width: 100%;
+	background-color: #333;
+	padding: 10px 20px;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+}
+
+.bold-text {
+	font-weight: bold;
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+	margin-right: 10px;
+}
+
+.header .left {
+	display: flex;
+	align-items: center;
+}
+
+.card-form {
+	max-width: 400px;
+	margin: 20px auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-form label {
+	font-weight: bold;
+}
+
+.card-form select, .card-form textarea {
+	width: 100%;
+	padding: 4px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.card-form input[type="submit"] {
+	width: 100%;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.card-form input[type="submit"]:hover {
+	background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+
+	<div class="header pt-3 pb-3">
+		<div class="left">
+			<button onclick="history.back()">Back</button>
+			<a th:href="@{/user/home}">Home</a>
+		</div>
+
+		<div>
+			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<h1 class="w-75 mx-auto text-secondary">
+		Material Actuals for <span th:text="${lotId}"></span> Inspection Lot
+	</h1>
+	<table
+		class="table table-striped table-light table-hover table-bordered w-100 mx-auto">
+		<thead>
+			<tr>
+				<th>Character ID</th>
+				<th>Material ID</th>
+				<th>Character Desc</th>
+				<th>Upper Tolerance</th>
+				<th>Max Measurement</th>
+				<th>Lower Tolerance</th>
+				<th>Min Measurement</th>
+			</tr>
+		</thead>
+		<tr th:each="list : ${combinedList}">
+			<td th:text="${list.matChars.charId}"></td>
+			<td th:text="${matInspLot.material.materialId}"></td>
+			<td th:text="${list.matChars.charDesc}"></td>
+			<td th:text="${list.matChars.toleranceUl}"></td>
+			<td th:text="${list.matActuals.maxMes}"
+				th:class="${list.matActuals.maxMes<=list.matChars.toleranceUl && list.matActuals.maxMes>=list.matChars.toleranceLl ? 'text-success bold-text':'text-danger bold-text'}"></td>
+			<td th:text="${list.matChars.toleranceLl}"></td>
+			<td th:text="${list.matActuals.minMes}"
+				th:class="${list.matActuals.minMes>=list.matChars.toleranceLl && list.matActuals.minMes<=list.matChars.toleranceUl? 'text-success bold-text':'text-danger bold-text'}"></td>
+		</tr>
+
+	</table>
+	<div th:if="${matInspLot.result=='insp completed'}">
+		<div class="card-form">
+			<form th:action="@{'/user/save-remarks-results/' + ${lotId}}"
+				method="GET">
+				<div>
+					<label for="status">Status:</label> <select name="status"
+						id="status">
+						<option value="pass">Pass</option>
+						<option value="fail">Fail</option>
+					</select>
+				</div>
+				<div>
+					<label for="review">Remarks:</label>
+					<textarea name="review" id="review"
+						placeholder="Write your remarks here..."></textarea>
+				</div>
+				<div>
+					<input type="submit" value="Submit">
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
+<!-- 
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -39,7 +189,7 @@
 
 	<div class="header pt-3 pb-3">
 		<div class="left">
-			<a th:href="@{/user/show-inspection-lots}">Back</a> <a th:href="@{/user/home}">Home</a>
+			<button onclick="history.back()">Back</button> <a th:href="@{/user/home}">Home</a>
 		</div>
 
 		<div>
@@ -96,3 +246,5 @@
 
 </body>
 </html>
+
+ -->

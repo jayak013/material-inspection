@@ -46,7 +46,7 @@ body {
 <body>
 	<div class="header pt-3 pb-3">
 		<div class="left">
-			<a th:href="@{/user/home}">Back</a> <a th:href="@{/user/home}">Home</a>
+			<button onclick="history.back()">Back</button> <a th:href="@{/user/home}">Home</a>
 		</div>
 		<div>
 			<a th:href="@{/user/logout}" style="color: red;">Logout</a>
@@ -105,14 +105,14 @@ body {
 				<h5 class="text-success" th:text="${message}"></h5>
 
 			</form>
-			<button id="show" class="btn btn-primary" onclick="redirect()">Show
+			<button id="show" class="btn btn-primary" onclick="redirect()">Search
 				InspectionLots</button>
 		</div>
 	</div>
 
 	<script>
 		function redirect() {
-			window.location.href = '/zettamine/user/show-inspection-lots';
+			window.location.href = '/zettamine/user/search-insp-lots';
 		}
 	</script>
 </body>

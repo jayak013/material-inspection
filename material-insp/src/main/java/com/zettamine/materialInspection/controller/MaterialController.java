@@ -23,9 +23,7 @@ public class MaterialController {
 	
 	private MaterialService matService;
 
-	@Autowired
 	public MaterialController(MaterialService matService) {
-		super();
 		this.matService = matService;
 	}
 	
@@ -37,15 +35,11 @@ public class MaterialController {
 	
 	@PostMapping("/save-material")
 	public String saveMaterial(Material material, Model model) {
-		Material savedMaterial = matService.addMaterial(material);
+		matService.addMaterial(material);
 
-		if (savedMaterial != null) {
 			model.addAttribute("message", "Material is added or updated successfully");
 			return "add-material-page";
-		}
 
-		model.addAttribute("message", "failed to add the vendor");
-		return "add-material-page";
 	}
 	
 	@GetMapping("/show-materials")
@@ -55,12 +49,6 @@ public class MaterialController {
 		return "view-materials";
 	}
 	
-//	@PostMapping("/search-material/{id}")
-//	public String showAllVendors(@RequestParam("id") Integer id,Model model) {
-//		Material material = matService.getMaterialById(id);
-//		model.addAttribute("materials",material );
-//		return "view-materials";
-//	}
 	
 	@GetMapping("/delete-material/{id}")
 	public RedirectView deleteMaterial(@PathVariable("id") String id, Model model) {

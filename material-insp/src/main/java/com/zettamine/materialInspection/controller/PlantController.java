@@ -18,10 +18,9 @@ import com.zettamine.materialInspection.service.PlantService;
 @Controller
 @RequestMapping("/user")
 public class PlantController {
-	
+
 	private PlantService plantService;
-	
-	@Autowired
+
 	public PlantController(PlantService plantService) {
 		super();
 		this.plantService = plantService;
@@ -35,17 +34,16 @@ public class PlantController {
 
 	@PostMapping("/save-plant")
 	public String savePlant(Plant plant, Model model) {
-		Plant savedPlant = plantService.addPlant(plant);
+		plant.setCity(plant.getCity().toUpperCase().trim());
+		plant.setName(plant.getName().toUpperCase().trim());
+		plant.setPlantId(plant.getPlantId().toUpperCase().trim());
+		plant.setState(plant.getState().toUpperCase().trim());
+		plantService.addPlant(plant);
+		model.addAttribute("message", "Plant is added or updated successfully");
+		return "add-plant-page";
 
-		if (savedPlant != null) {
-			model.addAttribute("message", "Plant is added or updated successfully");
-			return "add-plant-page";
-		}
-
-		model.addAttribute("message", "failed to add the vendor");
-		return "add-vendor-page";
 	}
-	
+
 	@GetMapping("/show-plants")
 	public String showAllVendors(Model model) {
 		List<Plant> listOfPlants = plantService.getAllPlants();
@@ -58,10 +56,9 @@ public class PlantController {
 		plantService.removePlant(id);
 		return new RedirectView("/zettamine/user/show-plants");
 	}
-	
 
 	@GetMapping("/update-plant/{id}")
-	public String vendorPageUpdate(@PathVariable("id") String id,Model model) {
+	public String vendorPageUpdate(@PathVariable("id") String id, Model model) {
 		Plant plant = plantService.getPlantById(id);
 		model.addAttribute("plant", plant);
 		return "add-plant-page";

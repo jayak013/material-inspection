@@ -16,9 +16,7 @@ public class MaterialServiceImpl implements MaterialService {
 	
 	private MaterialRepository matRepo;
 	
-	@Autowired
 	public MaterialServiceImpl(MaterialRepository matRepo) {
-		super();
 		this.matRepo = matRepo;
 	}
 
@@ -27,6 +25,9 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Override
 	public Material addMaterial(Material material) {
+		material.setMaterialId(material.getMaterialId().toUpperCase().trim());
+		material.setDescription(material.getDescription().toUpperCase().trim());
+		material.setType(material.getType().toUpperCase().trim());
 		return matRepo.save(material);
 	}
 

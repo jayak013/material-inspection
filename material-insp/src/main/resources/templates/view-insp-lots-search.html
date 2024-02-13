@@ -85,18 +85,17 @@
 			<td><h6 th:text="${matInspLot.result}" th:class = "${matInspLot.result=='pass' ? 'text-success':'text-danger'}"></h6></td>
 			<td><span th:if = "${matInspLot.result=='pass' || matInspLot.result=='fail' || matInspLot.result=='under process'}">------</span><a
 				th:href="@{'/user/show-results/' + ${matInspLot.lotId}}"
-				th:if="${ matInspLotService.getMatCharsForActuals(matInspLot.lotId).size() == 0 && matInspLot.result=='insp completed'}"><i
+				th:if="${ matInspLot.result=='insp completed' &&  matInspLot.inspEndDate!=null}"><i
 					class="fa fa-edit text-info">Review</i></a> &nbsp; &nbsp; 
 					<!-- <a href="@{'/user/delete-material-insp-lot/' + ${matInspLot.lotId}}"> <i
 						class="fa fa-trash text-danger">Delete</i>
 				</a> --></td>
 				<td  >
-				   <a th:href="@{'/user/show-results/' + ${matInspLot.lotId}}" th:if = "${(matInspLotService.getMatCharsForActuals(matInspLot.lotId).size() >= 0 && matInspLotService.getMatCharsForActuals(matInspLot.lotId).size()<=matInspLot.material.matChars.size()) && matInspLot.inspEndDate==null}"><i class="fa fa-eye text-success">View Results</i></a> &nbsp; &nbsp;
-				  <a th:href="@{'/user/add-material-actuals/' + ${matInspLot.lotId}}" th:if = "${matInspLotService.getMatCharsForActuals(matInspLot.lotId).size() != 0}"><i
+				   <a th:href="@{'/user/show-results/' + ${matInspLot.lotId}}" th:if = "${(matInspLot.result=='insp completed' || matInspLot.result=='under process' || matInspLot.result=='pass' || matInspLot.result=='fail')&& matInspLot.matActuals.size()!=0 }"><i class="fa fa-eye text-success">View Results</i></a> &nbsp; &nbsp;
+				  <a th:href="@{'/user/add-material-actuals/' + ${matInspLot.lotId}}" th:if = "${matInspLotService.getMatCharsForActuals(matInspLot.lotId).size() != 0 && matInspLot.inspEndDate==null}"><i
 					class="fa fa-edit text-info">Add</i></a> &nbsp; &nbsp; 
 				</td>
 		</tr>
-		
 	</table>
 	<h4 th:field = "${message}"></h4>
 	<script>

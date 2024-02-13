@@ -24,6 +24,8 @@ public class MaterialCharsServiceImpl implements MaterialCharsService {
 
 	@Override
 	public MaterialChars addMaterialChar(MaterialChars matChars) {
+		matChars.setCharDesc(matChars.getCharDesc().toUpperCase().trim());
+		matChars.setUom(matChars.getUom().toUpperCase().trim());
 		return matCharRepo.save(matChars);
 	}
 

@@ -76,7 +76,7 @@ public class MaterialActualsController {
 		materialActuals.setMinMes(minMes);
 		materialActuals.setMaxMes(maxMes);
 		
-		MaterialActuals materialActualsSaved = matActualsService.addMaterialActuals(materialActuals);
+		matActualsService.addMaterialActuals(materialActuals);
 		
 		return "redirect:/user/add-material-actuals/"+lotId;
 	}

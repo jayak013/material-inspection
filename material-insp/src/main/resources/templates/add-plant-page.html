@@ -44,7 +44,7 @@
 <body>
     <div class="header pt-3 pb-3">
         <div class="left">
-            <a th:href="@{/user/home}">Back</a>
+            <button onclick="history.back()">Back</button>
             <a th:href="@{/user/home}">Home</a>
         </div>
         <div>
@@ -58,7 +58,7 @@
             <form th:action="@{/user/save-plant}" method="POST" class="row g-2" th:object="${plant}">
                 <div class="col-md-12">
                     <label for="name" class="form-label">Plant ID:</label>
-                    <input type="text" class="form-control form-control-sm" id="name" name="name" required th:field = "*{plantId}">
+                    <input type="text" class="form-control form-control-sm" id="name" name="name" th:readonly="${plant.plantId != null}" required th:field = "*{plantId}">
                 </div>
                 <div class="col-md-12">
                     <label for="name" class="form-label">Plant Name:</label>
