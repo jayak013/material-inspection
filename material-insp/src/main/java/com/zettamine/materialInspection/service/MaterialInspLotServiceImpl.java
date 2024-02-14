@@ -14,6 +14,7 @@ import com.zettamine.materialInspection.entities.MaterialInspLot;
 import com.zettamine.materialInspection.model.CombinedList;
 import com.zettamine.materialInspection.model.Search;
 import com.zettamine.materialInspection.repository.MaterialInspLotRepository;
+import com.zettamine.materialInspection.utils.SpaceRemover;
 
 @Service
 public class MaterialInspLotServiceImpl implements MaterialInspLotService {
@@ -26,6 +27,9 @@ public class MaterialInspLotServiceImpl implements MaterialInspLotService {
 	@Autowired
 	private MaterialService matService;
 
+	@Autowired
+	private SpaceRemover spacesRemover;
+	
 	public MaterialInspLotServiceImpl(MaterialInspLotRepository matInspLotRepo,
 			MaterialActualsService matActualsService) {
 		super();
@@ -44,7 +48,13 @@ public class MaterialInspLotServiceImpl implements MaterialInspLotService {
 
 	@Override
 	public MaterialInspLot getByLotId(Integer lotId) {
-		return matInspLotRepo.findById(lotId).get();
+		MaterialInspLot materialInspLot = null;
+		try {
+			materialInspLot = matInspLotRepo.findById(lotId).get();
+		}catch(Exception ex) {
+			return null;
+		}
+		return materialInspLot;
 	
 	}
 
@@ -116,11 +126,16 @@ public class MaterialInspLotServiceImpl implements MaterialInspLotService {
 
 	@Override
 	public List<MaterialInspLot> getSearchBasedResults(Search search) {
+		
+		
+		
 		List<MaterialInspLot> matInspLots = matInspLotRepo.findByCreatedOnBetween(search.getFromDate(),search.getToDate() );
 		if(!search.getPlantId().isEmpty()) {
+			search.setPlantId(spacesRemover.removeSpaces(search.getPlantId()).toUpperCase());
 			matInspLots = matInspLots.stream().filter(mil->mil.getPlant().getPlantId().equals(search.getPlantId())).collect(Collectors.toList());
 		}
 		if(!search.getMaterialId().isEmpty()) {
+			search.setMaterialId(spacesRemover.removeSpaces(search.getMaterialId()).toUpperCase());
 			matInspLots = matInspLots.stream().filter(mil->mil.getMaterial().getMaterialId().equals(search.getMaterialId())).collect(Collectors.toList());
 		}
 		if(!search.getStatus().isEmpty()) {

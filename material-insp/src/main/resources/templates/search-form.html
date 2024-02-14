@@ -60,11 +60,11 @@ body {
 			<form th:action="@{/user/inspection-lot-results}" method="POST" class="row g-2" th:object = "${search}">
 				<div class="col-md-12">
 					<label for="from_date" class="form-label">From Date:</label> <input type="date"
-						th:id="from_date" name="from_date" class="form-control form-control-sm" th:field = "*{fromDate}">
+						th:id="from_date" name="from_date" class="form-control form-control-sm" required th:field = "*{fromDate}">
 				</div>
 				<div class="col-md-12" >
 					<label for="to_date" class="form-label">To Date:</label> <input type="date"
-						th:id="to_date" name="to_date" class="form-control form-control-sm" th:field = "*{toDate}" th:onchange="handleDateValidation()">
+						th:id="to_date" name="to_date" class="form-control form-control-sm" required th:field = "*{toDate}" th:onchange="handleDateValidation()">
 				</div>
 				<!-- <div class="col-md-12" >
 					<label for="material_number" class="form-label">Material Number:</label> <input
@@ -72,24 +72,34 @@ body {
 				</div> -->
 				
 				<div>
-					<label for="plant" class="form-label" >Plant:</label> <select
+					<label for="plant" class="form-label"  th:field = "*{plantId}">Plant Id:</label> <!-- <select
 						class="form-select form-select-sm" id = "plantId" name="plantId" 
 						 >
 						<option value="">Select Plant</option>
 						<option th:each="plant : ${plants}" th:value="${plant.plantId}"
 							 th:text="${plant.name}" ></option>
-					</select>
+					</select> -->
+					 <input type="text" class="form-control form-control-sm" id="plantId"
+						name="plantId" >
 				</div>
 			
 				<div>
-					<label for="material" class="form-label"  th:field = "*{materialId}">Material:</label> <select
+					<label for="material" class="form-label"  th:field = "*{materialId}">Material:</label> <!-- <select
 						class="form-select form-select-sm" id = "materialId" name="materialId" 
-						 >
-						<option value="">Select Material</option>
-						<option th:each="material : ${materials}" th:value="${material.materialId}"
-							 th:text="${material.description}" ></option>
-					</select>
+						 > -->
+						 <input type="text" class="form-control form-control-sm" id="materialId"
+						name="materialId" >
+						<!-- <option value="">Select Material</option> -->
+						<!-- <option th:each="material : ${materials}" th:value="${material.materialId}"
+							 th:text="${material.description}" ></option> -->
+					<!-- </select> -->
 				</div>
+				
+<!-- 				<div class="col-md-6">
+					<label for="state" class="form-label" >Created Date:</label>
+					<input type="date" class="form-control form-control-sm" id="crDate"
+						name="crDate" required>
+				</div> -->
 				
 				<div>
 					<label for="status" class="form-label"  th:field = "*{status}">Status:</label> <select
@@ -129,14 +139,15 @@ body {
 			console.log((toDateValue - fromDateValue) / (1000 * 3600 * 24));
 			if (toDateValue < fromDateValue) {
 				alert("please select valid dates");
-				fromDate.value = "";
-				toDate.value = "";
+				fromDate.value = fromDate;
+				toDate.value = ToDate;
 			}
 			if (((toDateValue - fromDateValue) / (1000 * 3600 * 24)) > 90) {
 
 				alert("select date ranges in 90 days period");
 
-				toDate.value = "";
+				fromDate.value = fromDate;
+				toDate.value = ToDate;
 			}
 		}
 	</script>

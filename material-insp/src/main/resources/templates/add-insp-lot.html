@@ -89,13 +89,14 @@ body {
 				</div>
 
 				<div class="col-md-6">
-					<label for="state" class="form-label" >Created Date:</label>
+					<label for="state" class="form-label">Created Date:</label>
 					<input type="date" class="form-control form-control-sm" id="crDate"
 						name="crDate" required>
 				</div>
 				<div class="col-md-6">
 					<label for="state" class="form-label" >Inspection Start Date:</label>
 					<input type="date" class="form-control form-control-sm" id="inspStDate"
+					th:onchange="handleDateValidation()"
 						name="inspStDate"  required >
 				</div>
 				<div class="col-12">
@@ -110,9 +111,34 @@ body {
 		</div>
 	</div>
 
-	<script>
+
+	<script th:inline="javascript">
 		function redirect() {
 			window.location.href = '/zettamine/user/search-insp-lots';
+		}
+		function handleDateValidation() {
+
+			const fromDate = document.getElementById("crDate");
+
+			const toDate = document.getElementById("inspStDate");
+
+			const fromDateValue = new Date(fromDate.value);
+
+			const toDateValue = new Date(toDate.value);
+
+			console.log((toDateValue - fromDateValue) / (1000 * 3600 * 24));
+			if (toDateValue < fromDateValue) {
+				alert("please select valid dates");
+				
+				toDate.value = "";
+			}
+			/* if (((toDateValue - fromDateValue) / (1000 * 3600 * 24))  <=0) {
+
+				alert("created date should be <= inspection start date ");
+
+				fromDate.value = fromDate;
+				toDate.value = ToDate;
+			} */
 		}
 	</script>
 </body>

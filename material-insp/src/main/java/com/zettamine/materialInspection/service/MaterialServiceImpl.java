@@ -10,11 +10,15 @@ import com.zettamine.materialInspection.entities.Material;
 import com.zettamine.materialInspection.entities.MaterialChars;
 import com.zettamine.materialInspection.entities.Plant;
 import com.zettamine.materialInspection.repository.MaterialRepository;
+import com.zettamine.materialInspection.utils.SpaceRemover;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
 	
 	private MaterialRepository matRepo;
+	
+	@Autowired
+	private SpaceRemover spacesRemover;
 	
 	public MaterialServiceImpl(MaterialRepository matRepo) {
 		this.matRepo = matRepo;
@@ -25,7 +29,7 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Override
 	public Material addMaterial(Material material) {
-		material.setMaterialId(material.getMaterialId().toUpperCase().trim());
+		material.setMaterialId(spacesRemover.removeSpaces(material.getMaterialId()).toUpperCase());
 		material.setDescription(material.getDescription().toUpperCase().trim());
 		material.setType(material.getType().toUpperCase().trim());
 		return matRepo.save(material);

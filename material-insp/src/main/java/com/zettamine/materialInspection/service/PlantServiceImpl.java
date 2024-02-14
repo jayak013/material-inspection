@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 import com.zettamine.materialInspection.entities.Plant;
 import com.zettamine.materialInspection.entities.Vendor;
 import com.zettamine.materialInspection.repository.PlantRepository;
+import com.zettamine.materialInspection.utils.SpaceRemover;
 
 @Service
 public class PlantServiceImpl implements PlantService {
 	
 	private PlantRepository plantRepo;
+	
+	@Autowired
+	private SpaceRemover spacesRemover;
 
 	@Autowired
 	public PlantServiceImpl(PlantRepository plantRepo) {
@@ -25,6 +29,10 @@ public class PlantServiceImpl implements PlantService {
 
 	@Override
 	public Plant addPlant(Plant plant) {
+		plant.setPlantId(spacesRemover.removeSpaces(plant.getPlantId()).toUpperCase());
+		plant.setName(plant.getName().trim().toUpperCase());
+		plant.setCity(plant.getCity().trim().toUpperCase());
+		plant.setState(plant.getState().trim().toUpperCase());
 		return plantRepo.save(plant);
 	}
 

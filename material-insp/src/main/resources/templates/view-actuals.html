@@ -92,15 +92,15 @@
 	<br>
 	<br>
 	<br>
-	<h1 class="w-75 mx-auto text-secondary">
-		Material Actuals for <span th:text="${lotId}"></span> Inspection Lot
+	<h1 class="w-100 container text-secondary container">
+		Material Actuals of <span th:text="${lotId}"></span> Inspection Lot for Material <span th:text = ${matInspLot.material.materialId}></span>
 	</h1>
 	<table
 		class="table table-striped table-light table-hover table-bordered w-100 mx-auto">
 		<thead>
 			<tr>
 				<th>Character ID</th>
-				<th>Material ID</th>
+				<!-- <th>Material ID</th> -->
 				<th>Character Desc</th>
 				<th>Upper Tolerance</th>
 				<th>Max Measurement</th>
@@ -110,7 +110,7 @@
 		</thead>
 		<tr th:each="list : ${combinedList}">
 			<td th:text="${list.matChars.charId}"></td>
-			<td th:text="${matInspLot.material.materialId}"></td>
+			<!-- <td th:text="${matInspLot.material.materialId}"></td> -->
 			<td th:text="${list.matChars.charDesc}"></td>
 			<td th:text="${list.matChars.toleranceUl}"></td>
 			<td th:text="${list.matActuals.maxMes}"
@@ -135,7 +135,7 @@
 				<div>
 					<label for="review">Remarks:</label>
 					<textarea name="review" id="review"
-						placeholder="Write your remarks here..."></textarea>
+						placeholder="Write your remarks here..." required></textarea>
 				</div>
 				<div>
 					<input type="submit" value="Submit">

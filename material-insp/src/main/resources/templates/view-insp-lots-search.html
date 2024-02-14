@@ -49,12 +49,17 @@
 	<br>
 	<br>
 	<br>
-	<h1 class="w-50 mx-auto text-secondary">Inspection Lot Details</h1>
+	<h1 class="w-50 mx-auto text-secondary container">Inspection Lot Details</h1>
 	<p></p>
 	<div class="w-50 px-md-2">
 		<h4 class="right btn btn-primary " onclick="redirect()">Add
 			Material Inpection Lot</h4>
 	</div>
+	<div><form th:action="@{/user/search-lotId}" method = "GET">
+			   Search LOT ID:<input type="number" id="lotId"
+						name="lotId" required>
+			<input type = "submit" value = "S U B M I T">
+		</form></div>
 	<p></p>
 	<table
 		class="table table-striped table-light table-hover table-bordered w-100 mx-auto">
@@ -73,7 +78,7 @@
 				<th>Material Actuals</th>
 			</tr>
 		</thead>
-		<tr th:each="matInspLot : ${matInspLots}">
+		<tr th:if="${matInspLot!=null}" th:each="matInspLot : ${matInspLots}">
 			<td th:text="${matInspLot.lotId}"></td>
 			<td th:text="${matInspLot.material.description}"></td>
 			<td th:text="${matInspLot.vendor.vendorId}"></td>
@@ -97,7 +102,8 @@
 				</td>
 		</tr>
 	</table>
-	<h4 th:field = "${message}"></h4>
+	<br>
+	<h2 th:text="${message}"></h2>
 	<script>
 		function redirect() {
 			window.location.href = '/zettamine/user/add-material-insp-lot';

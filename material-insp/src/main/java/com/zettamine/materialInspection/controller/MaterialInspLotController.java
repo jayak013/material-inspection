@@ -33,6 +33,8 @@ import com.zettamine.materialInspection.service.VendorService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -170,8 +172,8 @@ public class MaterialInspLotController {
 	public String search(Model model) {
 		model.addAttribute("search", new Search());
 //		model.addAttribute("matInspLots", matInspLotService.getAll());
-		model.addAttribute("materials", matService.getAllMaterials());
-		model.addAttribute("plants", plantService.getAllPlants());
+//		model.addAttribute("materials", matService.getAllMaterials());
+//		model.addAttribute("plants", plantService.getAllPlants());
 		return "search-form";
 	}
 	
@@ -184,6 +186,20 @@ public class MaterialInspLotController {
 		model.addAttribute("matInspLots", matInspLots);
 		model.addAttribute("matInspLotService",matInspLotService);
 		
+		return "view-insp-lots-search";
+	}
+	
+	@GetMapping(path = "/search-lotId")
+	public String searchBasedOnLotId(@RequestParam("lotId") Integer lotId,Model model) {
+		
+		MaterialInspLot matInspLot = matInspLotService.getByLotId(lotId);
+		System.out.println(matInspLot);
+		List<MaterialInspLot> matInspLots = new ArrayList<>();
+		if(matInspLot!=null) {
+			matInspLots.add(matInspLot);
+			model.addAttribute("matInspLots", matInspLots);
+			model.addAttribute("matInspLotService",matInspLotService);
+		}else model.addAttribute("message", "No Records Found");
 		return "view-insp-lots-search";
 	}
 	
